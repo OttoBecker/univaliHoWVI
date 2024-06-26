@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How VI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        const serverClientes = "/clientes";
+        const serverCompras = "/compras";
+        async function carregarComboClientes() {
+            // const tabela = document.getElementById("marca-tabela");
+            const comboClientes = document.getElementById("inlineFormSelectPref")
+            const requestResult = await window.fetch(serverClientes); //requisição
+            const objects = await requestResult.json(); //resposta
+            objects.forEach(object => {
+                let combo = document.createElement("option")
+                combo.value = object.id_cliente
+                combo.innerHTML = object.nome
+                comboClientes.appendChild(combo)
+            });
+        };
+
+        async function carregarCompras() {
+            const tabelaCompras = document.getElementById("tabelaCompras");
+            const requestResult = await window.fetch(serverCompras); //requisição
+            const objects = await requestResult.json(); //resposta
+            objects.forEach(object => {
+            let trProdutos = document.createElement("tr");
+                let tdIdCompra= document.createElement("td");
+                let tdDsProduto = document.createElement("td");
+                let tdValor = document.createElement("td");
+                let tdNomeCliente = document.createElement("td");
+                let tdMetodoCompra = document.createElement("td");
+                let tdDataCadastroProduto = document.createElement("td");
+                tdIdCompra.innerHTML = object.id_compra;
+                tdDsProduto.innerHTML = object.descricao;
+                tdValor.innerHTML = object.valor;
+                tdNomeCliente.innerHTML = object.nome;
+                tdMetodoCompra.innerHTML = object.metodoPagamento;
+                tdDataCadastroProduto.innerHTML = object.dataCompra;
+                trProdutos.appendChild(tdIdCompra);
+                trProdutos.appendChild(tdDsProduto);
+                trProdutos.appendChild(tdValor);
+                trProdutos.appendChild(tdNomeCliente);
+                trProdutos.appendChild(tdMetodoCompra);
+                trProdutos.appendChild(tdDataCadastroProduto);
+                tabelaCompras.appendChild(trProdutos);
+        });
+    };
+    </script>
+    <style>
+        body {
+            font-family: Calibri, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body onload="carregarComboClientes(); carregarCompras()">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Cadastro de clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/pagina-compras">Cadastro de compras</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto"> <!-- Adicionando a classe ml-auto para alinhar à direita -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Voltar ao topo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <form action="/compras" method="post" class="w-50">
+            <div class="row" style="margin-top: 80px;">
+                <h2 class="text-center">Cadastro de compras</h2>
+                <div class="row">
+                    <div class="col m-1">
+                        <select required class="form-select" id="inlineFormSelectPref" name="id_cliente">
+                            <option value="" disabled selected>Escolha um cliente...</option>
+                        </select>
+                    </div>
+                    <div class="col m-1">
+                        <input type="text" required class="form-control" id="descricao" name="descricao"
+                            placeholder="Produto" aria-label="descricao">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col m-1">
+                        <input type="text" pattern="[0-9]*[.,]?[0-9]+" title="Insira um valor" required class="form-control" id="valor" name="valor" placeholder="Valor"
+                            aria-label="valor">
+                    </div>
+                    <div class="col m-1">
+                        <input type="text" required class="form-control" id="metodoPagamento" name="metodoPagamento"
+                            placeholder="Método de Pagamento" aria-label="metodoPagamento">
+                    </div>
+                </div>
+                <div class="row w-100 d-flex justify-content-center align-items-center">
+                    <div class="col w-50 m-1">
+                        <button type="submit" class="btn btn-success w-100">Cadastrar produto</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="d-flex justify-content-center">
+        <table class="table table-hover w-50">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 5%;">ID</th>
+                    <th scope="col" style="width: 20%;">Produto</th>
+                    <th scope="col" style="width: 10%;">Valor</th>
+                    <th scope="col" style="width: 15%;">Cliente</th>
+                    <th scope="col" style="width: 20%;">Método de pgmt.</th>
+                    <th scope="col" style="width: 15%;">Data de cadastro</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tabelaCompras">
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

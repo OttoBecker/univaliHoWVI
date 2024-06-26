@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How VI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        const serverClientes = "/clientes";
+        async function carregarClientes() {
+            const tabelaCliente = document.getElementById("tabelaClientes");
+            const requestResult = await window.fetch(serverClientes); //requisição
+            const objects = await requestResult.json(); //resposta
+            objects.forEach(object => {
+                let trCliente = document.createElement("tr");
+                let tdIdCliente = document.createElement("td");
+                let tdNomeCliente = document.createElement("td");
+                let tdCpfCliente = document.createElement("td");
+                let tdDataCadastroCliente = document.createElement("td");
+                tdIdCliente.innerHTML = object.id_cliente;
+                tdNomeCliente.innerHTML = object.nome;
+                tdCpfCliente.innerHTML = object.cpf;
+                tdDataCadastroCliente.innerHTML = object.dataCadastro;
+                trCliente.appendChild(tdIdCliente);
+                trCliente.appendChild(tdNomeCliente);
+                trCliente.appendChild(tdCpfCliente);
+                trCliente.appendChild(tdDataCadastroCliente);
+                tabelaCliente.appendChild(trCliente);
+            });
+        }
+    </script>
+    <style>
+        body {
+            font-family: Calibri, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body onload="carregarClientes();">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Cadastro de clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pagina-compras">Cadastro de compras</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto"> <!-- Adicionando a classe ml-auto para alinhar à direita -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Voltar ao topo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="w-100 d-flex justify-content-center align-items-center">
+        <form action="/clientes" method="post" class="w-50">
+            <div class="row" style="margin-top: 80px;">
+                <h2 class="text-center">Cadastro de clientes</h2>
+                <div class="row">
+                    <div class="col m-1">
+                        <input type="text" required class="form-control" id="nome" name="nome" placeholder="Nome"
+                            aria-label="nome">
+                    </div>
+                    <div class="col m-1">
+                        <input type="text"  required class="form-control" id="cpf" name="cpf" placeholder="CPF"
+                            aria-label="cpf">
+                    </div>
+                </div>
+                <div class="row w-100 d-flex justify-content-center align-items-center">
+                    <div class="col w-50 m-1">
+                        <button type="submit" class="btn btn-success w-100">Cadastrar cliente</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="d-flex justify-content-center">
+        <table class="table table-hover w-50">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 10%;">ID</th>
+                    <th scope="col" style="width: 20%;">Nome</th>
+                    <th scope="col" style="width: 15%;">CPF</th>
+                    <th scope="col" style="width: 20%;">Data de cadastro</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" id="tabelaClientes">
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
