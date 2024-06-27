@@ -25,7 +25,8 @@ app.get('/clientes', (req, res) => {
   let sql = `SELECT id_cliente, 
                     nome, 
                     cpf, 
-                    DATE_FORMAT(dataCadastro, '%d/%m/%Y %H:%i:%s') as dataCadastro   
+                    DATE_FORMAT(dataCadastro, '%d/%m/%Y %H:%i:%s') as dataCadastro,
+                    concat(nome, ' - ', cpf) as nome_cpf
                   FROM CLIENTES
                   ORDER BY id_cliente desc`;
 
@@ -51,7 +52,7 @@ app.get('/compras', (req, res) => {
                 CLIENTES.nome, 
                 COMPRAS.id_compra,
                 COMPRAS.descricao,
-                FORMAT(valor, 2, 'pt-br') as valor,
+                FORMAT(valor, 2, 'pt_BR') as valor,
                 COMPRAS.metodoPagamento,
                 DATE_FORMAT(COMPRAS.dataCompra, '%d/%m/%Y %H:%i:%s') as dataCompra
             FROM COMPRAS

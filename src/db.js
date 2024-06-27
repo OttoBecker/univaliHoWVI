@@ -16,7 +16,7 @@ con.connect((erro) => {
     let sql = ` CREATE TABLE IF NOT EXISTS CLIENTES 
                 (id_cliente int primary key auto_increment not null,
                 nome varchar(255) not null,
-                cpf varchar(40) not null,
+                cpf varchar(14) not null,
                 dataCadastro datetime not null);`;
     con.execute(sql, (erro, retorno) =>{
         if(erro){

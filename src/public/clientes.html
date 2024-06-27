@@ -33,6 +33,17 @@
                 tabelaCliente.appendChild(trCliente);
             });
         }
+
+        function formatar(mascara, documento) {
+            let i = documento.value.length;
+            let saida = '#';
+            let texto = mascara.substring(i);
+            while (texto.substring(0, 1) != saida && texto.length ) {
+            documento.value += texto.substring(0, 1);
+            i++;
+            texto = mascara.substring(i);
+        }
+  }
     </script>
     <style>
         body {
@@ -70,12 +81,11 @@
                 <h2 class="text-center">Cadastro de clientes</h2>
                 <div class="row">
                     <div class="col m-1">
-                        <input type="text" required class="form-control" id="nome" name="nome" placeholder="Nome"
-                            aria-label="nome">
+                        <input type="text" required class="form-control" id="nome" name="nome" placeholder="Nome">
                     </div>
                     <div class="col m-1">
-                        <input type="text"  required class="form-control" id="cpf" name="cpf" placeholder="CPF"
-                            aria-label="cpf">
+                        <input type="text" title="CPF inválido! Digite um CPF com o formato correto" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" minlength="14" maxlength="14" onkeypress="formatar('###.###.###-##',this)"  required class="form-control" 
+                        id="cpf" name="cpf" placeholder="CPF">
                     </div>
                 </div>
                 <div class="row w-100 d-flex justify-content-center align-items-center">

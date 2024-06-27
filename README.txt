@@ -4,7 +4,7 @@ Passo a passo para a exeução do sistema
 
 2 - Clone o repositório;
 
-3 - Ajuste os dados do banco de dados, como o user, password e database, no arquivo db.js dentro da pasta src;
+3 - Ajuste os dados do banco de dados, como o user, password e database (De preferência com o nome "forum_tematico"), no arquivo db.js dentro da pasta src;
 
 4 - Utilize o comando "npm install" no terminal para instalar as dependências necessárias;
 
